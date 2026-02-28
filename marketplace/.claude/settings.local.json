@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run dev)",
+      "Bash(npm install vue-router@4)",
+      "Bash(npm install pinia)",
+      "Bash(lsof -ti:3000)",
+      "Bash(npm install marked)",
+      "Bash(git add .)",
+      "Bash(git restore --staged node_modules)"
+    ]
+  }
+}
