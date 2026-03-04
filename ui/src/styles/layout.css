@@ -619,3 +619,26 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===========================================
+   Hide Header Area Content
+   =========================================== */
+
+/* Hide topbar content but keep layout structure */
+.topbar-left,
+.topbar-right,
+.topbar .nav-collapse-toggle {
+  display: none !important;
+}
+
+/* Set topbar to 0 height */
+.topbar {
+  height: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Remove topbar from shell layout */
+.shell {
+  grid-template-rows: 0 1fr;
+}
