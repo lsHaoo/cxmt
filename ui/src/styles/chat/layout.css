@@ -1,0 +1,646 @@
+/* =============================================
+   CHAT CARD LAYOUT - Flex container with sticky compose
+   ============================================= */
+
+/* Main chat card - flex column layout, white background */
+.chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  height: 100%;
+  min-height: 0; /* Allow flex shrinking */
+  overflow: hidden;
+  background: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Chat header - fixed at top, transparent */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  background: transparent;
+}
+
+.chat-header__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.chat-header__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-session {
+  min-width: 180px;
+}
+
+/* Chat thread - scrollable middle section, white background */
+.chat-thread {
+  flex: 1 1 0; /* Grow, shrink, and use 0 base for proper scrolling */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 4px;
+  margin: 0 -4px;
+  min-height: 0; /* Allow shrinking for flex scroll behavior */
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+/* Focus mode exit button */
+.chat-focus-exit {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 150ms ease-out,
+    color 150ms ease-out,
+    border-color 150ms ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chat-focus-exit:hover {
+  background: var(--panel-strong);
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.chat-focus-exit svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* New messages indicator - floating pill above compose */
+.chat-new-messages {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  margin: 8px auto;
+  font-size: 13px;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--panel-strong);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 10;
+  transition:
+    background 150ms ease-out,
+    border-color 150ms ease-out;
+}
+
+.chat-new-messages:hover {
+  background: var(--panel);
+  border-color: var(--accent);
+}
+
+.chat-new-messages svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* Chat compose - sticky at bottom */
+.chat-compose {
+  position: sticky;
+  bottom: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto; /* Push to bottom of flex container */
+  padding: 16px 8px 8px;
+  background: transparent;
+  z-index: 10;
+}
+
+:root[data-theme="light"] .chat-compose {
+  background: #fafafa;
+}
+
+/* Image attachments preview */
+.chat-attachments {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  background: var(--panel);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start; /* Don't stretch in flex column parent */
+}
+
+/* New session button - positioned at top left of compose area */
+.chat-new-session-btn {
+  align-self: flex-start;
+  padding: 6px 14px;
+  font-size: 13px;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+.chat-attachment {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.chat-attachment__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.chat-attachment__remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.chat-attachment:hover .chat-attachment__remove {
+  opacity: 1;
+}
+
+.chat-attachment__remove:hover {
+  background: rgba(220, 38, 38, 0.9);
+}
+
+.chat-attachment__remove svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2px;
+}
+
+/* Light theme attachment overrides */
+:root[data-theme="light"] .chat-attachments {
+  background: #f8fafc;
+  border-color: rgba(16, 24, 40, 0.1);
+}
+
+:root[data-theme="light"] .chat-attachment {
+  border-color: rgba(16, 24, 40, 0.15);
+  background: #fff;
+}
+
+:root[data-theme="light"] .chat-attachment__remove {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Message images (sent images displayed in chat) */
+.chat-message-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chat-message-image {
+  max-width: 300px;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+}
+
+.chat-message-image:hover {
+  transform: scale(1.02);
+}
+
+/* User message images align right */
+.chat-group.user .chat-message-images {
+  justify-content: flex-end;
+}
+
+/* Compose input row - horizontal layout */
+.chat-compose__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex: 1;
+  width: 100%;
+}
+
+:root[data-theme="light"] .chat-compose {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .chat-compose__input-wrapper {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+:root[data-theme="light"] .chat-compose__input-wrapper textarea {
+  color: var(--text);
+}
+
+:root[data-theme="light"] .chat-compose__input-wrapper:focus-within {
+  box-shadow:
+    var(--focus-glow),
+    var(--shadow-md);
+}
+
+.chat-compose__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Hide the "Message" label - keep textarea only */
+.chat-compose__field > span {
+  display: none;
+}
+
+/* Input wrapper with send button */
+.chat-compose__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  background: #f8f9fa;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 52px;
+  max-height: 180px;
+  transition:
+    border-color var(--duration-normal) ease,
+    box-shadow var(--duration-normal) ease,
+    background var(--duration-normal) ease;
+}
+
+.chat-compose__input-wrapper textarea {
+  width: 100%;
+  height: 52px;
+  min-height: 52px;
+  max-height: 180px;
+  padding: 14px 60px 14px 18px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  resize: none;
+  white-space: pre-wrap;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  transition: color var(--duration-normal) ease;
+}
+
+.chat-compose__input-wrapper textarea::placeholder {
+  color: var(--muted);
+}
+
+.chat-compose__input-wrapper textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.chat-compose__input-wrapper:focus-within {
+  border-color: var(--accent);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.08);
+}
+
+:root[data-theme="light"] .chat-compose__input-wrapper:focus-within {
+  background: #ffffff;
+}
+
+.chat-compose__send-btn {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--accent);
+  color: var(--primary-foreground);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--duration-normal) ease,
+    transform var(--duration-normal) ease,
+    box-shadow var(--duration-normal) ease;
+  box-shadow: 0 2px 8px rgba(96, 165, 250, 0.15);
+}
+
+.chat-compose__send-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 16px rgba(96, 165, 250, 0.2);
+}
+
+.chat-compose__send-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.chat-compose__send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.chat-compose__send-btn svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    transform var(--duration-fast) ease,
+    stroke-width var(--duration-fast) ease;
+}
+
+.chat-compose__send-btn:not(:disabled):hover svg {
+  transform: translateX(1px) translateY(-1px);
+  stroke-width: 2.5px;
+}
+
+.chat-compose__field textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Add subtle glow animation when typing */
+@keyframes input-glow {
+  0%, 100% {
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 0 var(--card-highlight);
+  }
+  50% {
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 0 var(--card-highlight),
+      0 0 0 2px var(--accent-subtle);
+  }
+}
+
+.chat-compose__input-wrapper.typing {
+  animation: input-glow 2s ease-in-out infinite;
+}
+
+/* PC-only enhancements */
+@media (min-width: 641px) {
+  .chat-compose__input-wrapper:hover:not(:focus-within) {
+    border-color: var(--border-hover);
+  }
+
+  .chat-compose__send-btn:not(:disabled):hover {
+    box-shadow:
+      var(--shadow-md),
+      0 0 20px var(--accent-glow),
+      0 0 40px rgba(22, 119, 255, 0.15);
+  }
+}
+
+/* Removed: .chat-compose__actions - send button now inside input wrapper */
+
+/* Chat controls - moved to content-header area, left aligned */
+.chat-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chat-controls__session {
+  min-width: 140px;
+  max-width: 300px;
+}
+
+.chat-controls__thinking {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+/* Icon button style */
+.btn--icon {
+  padding: 8px !important;
+  min-width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Controls separator */
+.chat-controls__separator {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 18px;
+  margin: 0 8px;
+  font-weight: 300;
+}
+
+:root[data-theme="light"] .chat-controls__separator {
+  color: rgba(16, 24, 40, 0.3);
+}
+
+.btn--icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Light theme icon button overrides */
+:root[data-theme="light"] .btn--icon {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  color: var(--muted);
+}
+
+:root[data-theme="light"] .btn--icon:hover {
+  background: #ffffff;
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+/* Light theme icon button overrides */
+:root[data-theme="light"] .btn--icon {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  color: var(--muted);
+}
+
+:root[data-theme="light"] .btn--icon:hover {
+  background: #ffffff;
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+:root[data-theme="light"] .chat-controls .btn--icon.active {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-subtle);
+}
+
+.btn--icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chat-controls__session select {
+  padding: 6px 10px;
+  font-size: 13px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-controls__thinking {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+/* Light theme thinking indicator override */
+:root[data-theme="light"] .chat-controls__thinking {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(16, 24, 40, 0.15);
+}
+
+@media (max-width: 640px) {
+  .chat-session {
+    min-width: 140px;
+  }
+
+  .chat-compose {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile: stack compose row vertically */
+  .chat-compose__row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Mobile: ensure input wrapper uses full width */
+  .chat-compose__input-wrapper {
+    width: 100%;
+    min-height: 46px;
+    border-radius: var(--radius-lg);
+  }
+
+  .chat-compose__input-wrapper textarea {
+    height: 46px;
+    min-height: 46px;
+    padding: 11px 54px 11px 14px;
+    font-size: 14px;
+  }
+
+  /* Mobile: send button */
+  .chat-compose__send-btn {
+    width: 34px;
+    height: 34px;
+    bottom: 5px;
+    right: 5px;
+  }
+
+  .chat-compose__send-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* Removed: .chat-compose__actions - send button now inside input wrapper */
+
+  .chat-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chat-controls__session {
+    min-width: 120px;
+  }
+}

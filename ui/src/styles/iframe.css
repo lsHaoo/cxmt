@@ -1,0 +1,319 @@
+/* ===========================================
+   Iframe Embed Mode Styles - Clean Design
+   =========================================== */
+
+/* Hide topbar and navigation completely in iframe mode */
+.iframe-mode .topbar,
+.iframe-mode .brand,
+.iframe-mode .nav {
+  display: none !important;
+}
+
+/* Full width content area */
+.iframe-mode .shell {
+  grid-template-rows: 0 1fr;
+  grid-template-columns: 0 minmax(0, 1fr);
+  grid-template-areas:
+    "topbar"
+    "content";
+}
+
+.iframe-mode .shell--nav-collapsed {
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+
+/* Content area takes full width */
+.iframe-mode .content {
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ===========================================
+   Floating Menu Button (Right Bottom Corner)
+   =========================================== */
+
+/* Floating menu container */
+.floating-menu-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Floating menu toggle button */
+.floating-menu-toggle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent, #1677ff);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.floating-menu-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(22, 119, 255, 0.4);
+}
+
+.floating-menu-toggle:active {
+  transform: scale(0.95);
+}
+
+.floating-menu-toggle.active {
+  background: var(--accent-hover, #4096ff);
+  transform: rotate(45deg);
+}
+
+/* Menu icon */
+.floating-menu-toggle__icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+  transition: transform 250ms ease;
+}
+
+.floating-menu-toggle.active .floating-menu-toggle__icon {
+  transform: rotate(-45deg);
+}
+
+/* ===========================================
+   Floating Menu Panel
+   =========================================== */
+
+.floating-menu-panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 280px;
+  background: var(--bg-elevated, #ffffff);
+  border: 1px solid var(--border, #e8e8e8);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.95);
+  transition:
+    opacity 200ms ease,
+    visibility 200ms ease,
+    transform 200ms ease;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.floating-menu-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Menu panel header */
+.floating-menu-panel__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border, #f0f0f0);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-strong, #18181b);
+  background: var(--bg-hover, #fafafa);
+}
+
+/* Menu groups */
+.floating-menu-group {
+  padding: 8px;
+}
+
+.floating-menu-group:last-child {
+  padding-bottom: 16px;
+}
+
+.floating-menu-group__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted, #71717a);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+}
+
+/* Menu items */
+.floating-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-decoration: none;
+  color: var(--text, #3f3f46);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.floating-menu-item:hover {
+  background: var(--bg-hover, #f0f0f0);
+  color: var(--text-strong, #18181b);
+}
+
+.floating-menu-item.active {
+  background: var(--accent-subtle, rgba(22, 119, 255, 0.1));
+  color: var(--accent, #1677ff);
+}
+
+/* Menu item icon */
+.floating-menu-item__icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.floating-menu-item__icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.floating-menu-item:hover .floating-menu-item__icon,
+.floating-menu-item.active .floating-menu-item__icon {
+  opacity: 1;
+}
+
+.floating-menu-item.active .floating-menu-item__icon {
+  color: var(--accent, #1677ff);
+}
+
+/* Menu item text */
+.floating-menu-item__text {
+  flex: 1;
+  white-space: nowrap;
+}
+
+/* Click outside to close */
+.floating-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease;
+}
+
+.floating-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===========================================
+   Animations
+   =========================================== */
+
+@keyframes menu-float-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes menu-float-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+}
+
+/* ===========================================
+   Responsive Adjustments
+   =========================================== */
+
+/* Smaller screens */
+@media (max-width: 600px) {
+  .floating-menu-panel {
+    width: 240px;
+    right: -10px;
+    bottom: 60px;
+  }
+
+  .floating-menu-toggle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .floating-menu-item {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .floating-menu-item__icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .floating-menu-panel {
+    width: 100%;
+    right: 0;
+    bottom: 55px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .floating-menu-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .floating-menu-container {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+/* ===========================================
+   Scrollbar for menu panel
+   =========================================== */
+
+.floating-menu-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.floating-menu-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.floating-menu-panel::-webkit-scrollbar-thumb {
+  background: var(--border, #e8e8e8);
+  border-radius: 3px;
+}
+
+.floating-menu-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover, #d4d4d8);
+}
