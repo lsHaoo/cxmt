@@ -408,6 +408,9 @@ export class OpenClawApp extends LitElement {
         this.handleCimiclAwTask(event.data);
       }
     });
+
+    // Check for message in URL parameters
+    this.handleUrlMessage();
   }
 
   protected firstUpdated() {
@@ -511,14 +514,73 @@ export class OpenClawApp extends LitElement {
   // Handle CIMICLAW_TASK postmessage event
   async handleCimiclAwTask(data: any) {
     const message = data.message || 'start new chat';
+    const messageId = data.id || Date.now().toString();
 
-    // Automatically switch to chat tab if not already on chat
-    if (this.tab !== 'chat') {
-      this.setTab('chat');
+    try {
+      // Automatically switch to chat tab if not already on chat
+      if (this.tab !== 'chat') {
+        this.setTab('chat');
+      }
+
+      // Send the message to chat
+      await this.handleSendChat(message);
+
+      // Send success response to parent window
+      if (window.parent !== window) {
+        window.parent.postMessage({
+          type: 'CHAT_RESPONSE',
+          success: true,
+          messageId,
+          message,
+          timestamp: Date.now()
+        }, '*');
+      }
+    } catch (error) {
+      // Send error response to parent window
+      if (window.parent !== window) {
+        window.parent.postMessage({
+          type: 'CHAT_RESPONSE',
+          success: false,
+          messageId,
+          message,
+          error: String(error),
+          timestamp: Date.now()
+        }, '*');
+      }
+    }
+  }
+
+  // Handle message from URL parameters
+  async handleUrlMessage() {
+    if (typeof window === 'undefined') {
+      return;
     }
 
-    // Send the message to chat
-    await this.handleSendChat(message);
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const message = params.get('message');
+      const from = params.get('from') || 'external';
+
+      if (message && message.trim()) {
+        console.log('收到 URL 参数消息:', message, '来源:', from);
+
+        // Clear URL parameters after processing
+        const url = new URL(window.location.href);
+        url.searchParams.delete('message');
+        url.searchParams.delete('from');
+        window.history.replaceState({}, '', url.toString());
+
+        // Process the message
+        await this.handleCimiclAwTask({
+          id: 'url_' + Date.now(),
+          message: message.trim(),
+          from: from,
+          source: 'url'
+        });
+      }
+    } catch (error) {
+      console.error('处理 URL 消息失败:', error);
+    }
   }
 
   async handleWhatsAppStart(force: boolean) {
