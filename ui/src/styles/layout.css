@@ -621,24 +621,32 @@
 }
 
 /* ===========================================
-   Hide Header Area Content
+   Hide Header and Sidebar
    =========================================== */
 
-/* Hide topbar content but keep layout structure */
-.topbar-left,
-.topbar-right,
-.topbar .nav-collapse-toggle {
+/* Hide entire topbar/header area */
+.shell .topbar {
   display: none !important;
 }
 
-/* Set topbar to 0 height */
-.topbar {
-  height: 0 !important;
-  padding: 0 !important;
-  border: none !important;
+/* Hide sidebar/aside area */
+.shell .nav {
+  display: none !important;
 }
 
-/* Remove topbar from shell layout */
+/* Remove header and sidebar from shell layout */
 .shell {
-  grid-template-rows: 0 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "content";
+}
+
+/* Content area takes full screen */
+.content {
+  padding: 0 !important;
+  height: 100vh !important;
+  width: 100% !important;
+  max-height: 100vh !important;
+  overflow-y: auto !important;
 }
