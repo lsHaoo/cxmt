@@ -1,0 +1,9 @@
+# 忽略其他项目文件
+CimiClaw云端配置.md
+lsHaao-cxmt/
+marketplace/
+openclaw/
+opencode*.bat
+opencode*.ps1
+opencode*.sh
+ai-tools-electron-app/
