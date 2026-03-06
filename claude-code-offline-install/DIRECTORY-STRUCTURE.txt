@@ -1,0 +1,40 @@
+claude-code-offline-install/
+│
+├── README.md                    # 完整操作指南文档
+├── QUICKSTART.md                # 快速开始指南
+├── download-list.txt            # 下载清单文件
+├── download-windows.ps1         # Windows 自动下载脚本
+├── install-offline.ps1          # Windows 离线安装脚本
+├── checksums.txt               # 文件校验和（下载后生成）
+│
+├── packages/                    # 安装包目录
+│   └── windows/                 # Windows 平台安装包
+│       ├── install.ps1         # Claude Code 官方安装脚本
+│       └── claude-code-windows-x64.zip  # Claude Code 二进制文件（可选）
+│
+└── dependencies/                # 依赖目录
+    └── windows/                 # Windows 平台依赖
+        ├── Git-x.x.x.x-64-bit.exe          # Git 安装包（必需）
+        ├── node-v20.14.0-x64.msi            # Node.js 安装包（可选）
+        ├── node-v20.14.0-x64.zip            # Node.js ZIP 包（可选）
+        └── ripgrep-14.1.0-x86_64-pc-windows-msvc.zip  # ripgrep 工具（推荐）
+
+========================================
+使用说明
+========================================
+
+准备阶段（联网机器）：
+1. 运行 download-windows.ps1 自动下载大部分文件
+2. 手动下载 Git for Windows（必需）
+3. 可选：手动下载 Claude Code 二进制文件
+4. 打包整个文件夹传输到离线环境
+
+安装阶段（离线机器）：
+1. 解压安装包
+2. 以管理员身份运行 install-offline.ps1
+3. 重启终端
+4. 配置 API 密钥
+5. 验证安装
+
+详细操作步骤请参考 README.md
+快速开始请参考 QUICKSTART.md

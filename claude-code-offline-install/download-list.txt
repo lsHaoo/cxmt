@@ -1,0 +1,236 @@
+# Claude Code 离线安装包下载清单 (Windows 专用)
+#
+# 说明：本文件列出了 Claude Code 离线安装所需的所有文件
+# 请在联网环境中下载这些文件，并按照指定的目录结构保存
+#
+# 使用方法：
+# 1. 在联网环境中执行 download-windows.ps1 脚本自动下载
+# 2. 或手动下载以下文件到指定位置
+# 3. 将整个文件夹复制到离线环境进行安装
+
+# ========================================
+# Claude Code 官方安装脚本
+# ========================================
+
+# Windows PowerShell 安装脚本
+# 保存位置: packages/windows/install.ps1
+# 下载命令: Invoke-WebRequest -Uri "https://claude.ai/install.ps1" -OutFile "packages/windows/install.ps1"
+https://claude.ai/install.ps1
+
+# ========================================
+# Windows 平台依赖
+# ========================================
+
+# Git for Windows - 必需
+# 下载地址: https://git-scm.com/download/win
+# 保存位置: dependencies/windows/Git-x.x.x.x-64-bit.exe (使用最新版本)
+# 官方下载页面: https://github.com/git-for-windows/git/releases/latest
+
+# Node.js 20.x LTS - 可选（npm 安装方式需要）
+# 下载地址: https://nodejs.org/dist/latest-v20.x/
+# 保存位置: dependencies/windows/node-v20.14.0-x64.msi (使用 LTS 版本)
+https://nodejs.org/dist/latest-v20.x/node-v20.14.0-x64.msi
+
+# Node.js ZIP 版本 - 可选
+# 保存位置: dependencies/windows/node-v20.14.0-x64.zip
+https://nodejs.org/dist/latest-v20.x/node-v20.14.0-x64.zip
+
+# ripgrep (文本搜索工具) - 推荐
+# 下载地址: https://github.com/BurntSushi/ripgrep/releases
+# 保存位置: dependencies/windows/ripgrep-14.1.0-x86_64-pc-windows-msvc.zip
+https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep-14.1.0-x86_64-pc-windows-msvc.zip
+
+# ========================================
+# Claude Code 二进制文件（可选）
+# ========================================
+
+# 如需完全离线安装，可以从 GitHub Releases 下载二进制文件
+# 下载地址: https://github.com/anthropics/claude-code/releases
+
+# Windows x64
+# 保存位置: packages/windows/claude-code-windows-x64.zip
+
+
+# ========================================
+# PowerShell 自动下载脚本
+# ========================================
+
+# 文件名: download-windows.ps1
+# 使用方法:
+# 1. 以管理员身份运行 PowerShell
+# 2. 执行: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+# 3. 执行: .\download-windows.ps1
+
+# 脚本会自动下载以下文件：
+# - Claude Code 安装脚本
+# - Node.js 安装包 (MSI 和 ZIP 格式)
+# - ripgrep 工具
+# - Homebrew 安装脚本（保留但 Windows 不使用）
+
+# 需要手动下载的文件：
+# - Git for Windows (因为官方安装包可能没有直接的下载链接)
+
+
+# ========================================
+# 自动下载脚本内容
+# ========================================
+
+# 下载以下 PowerShell 脚本内容并保存为 download-windows.ps1：
+
+<#
+    Claude Code 离线安装包下载脚本 (Windows)
+
+    使用说明：
+    1. 以管理员身份运行 PowerShell
+    2. 执行: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+    3. 执行: .\download-windows.ps1
+
+    脚本功能：
+    - 自动创建目录结构
+    - 下载 Claude Code 安装脚本
+    - 下载 Node.js 安装包
+    - 下载 ripgrep 工具
+    - 生成文件校验和
+#>
+
+
+# ========================================
+# 手动下载步骤
+# ========================================
+
+# 如果自动下载脚本无法使用，请按以下步骤手动下载：
+
+# 步骤 1: 下载 Claude Code 安装脚本
+# ========================================
+# 在 PowerShell 中执行：
+# New-Item -ItemType Directory -Force -Path "packages\windows"
+# Invoke-WebRequest -Uri "https://claude.ai/install.ps1" -OutFile "packages\windows\install.ps1"
+
+# 步骤 2: 下载 Git for Windows
+# ========================================
+# 访问: https://git-scm.com/download/win
+# 下载最新的 64-bit 版本
+# 保存到: dependencies\windows\Git-x.x.x.x-64-bit.exe
+
+# 步骤 3: 下载 Node.js
+# ========================================
+# 访问: https://nodejs.org/
+# 下载 Node.js 20.x LTS 版本
+# 保存到: dependencies\windows\node-v20.x.x-x64.msi
+
+# 步骤 4: 下载 ripgrep
+# ========================================
+# 访问: https://github.com/BurntSushi/ripgrep/releases/latest
+# 下载 Windows x64 版本
+# 保存到: dependencies\windows\ripgrep-x.x.x-x86_64-pc-windows-msvc.zip
+
+
+# ========================================
+# 离线安装脚本
+# ========================================
+
+# 文件名: install-offline.ps1
+# 使用方法：
+# 1. 将整个文件夹复制到目标机器
+# 2. 以管理员身份运行 PowerShell
+# 3. 执行: .\install-offline.ps1
+
+# 脚本功能：
+# - 检查管理员权限
+# - 自动安装 Git
+# - 自动安装 Node.js（可选）
+# - 运行 Claude Code 安装脚本
+# - 验证安装结果
+
+
+# ========================================
+# 目录结构
+# ========================================
+
+# claude-code-offline-install/
+# ├── README.md                 # 本文档
+# ├── download-list.txt        # 下载清单
+# ├── download-windows.ps1     # 自动下载脚本
+# ├── install-offline.ps1      # 离线安装脚本
+# ├── packages/                # 安装包目录
+# │   └── windows/             # Windows 包
+# │       ├── install.ps1      # Claude Code 安装脚本
+# │       └── claude-code-windows-x64.zip  # 二进制文件（可选）
+# └── dependencies/            # 依赖目录
+#     └── windows/             # Windows 依赖
+#         ├── Git-x.x.x.x-64-bit.exe      # Git 安装包
+#         ├── node-v20.x.x-x64.msi         # Node.js 安装包
+#         ├── node-v20.x.x-x64.zip         # Node.js ZIP 包
+#         └── ripgrep-x.x.x-x86_64-pc-windows-msvc.zip  # ripgrep 工具
+
+
+# ========================================
+# 文件大小预估
+# ========================================
+
+# - Claude Code 安装脚本: ~5KB
+# - Git for Windows: ~50MB
+# - Node.js 20.x MSI: ~35MB
+# - Node.js 20.x ZIP: ~30MB
+# - ripgrep: ~10MB
+# - Claude Code 二进制文件: ~50-100MB (可选)
+
+# 总计 (不含二进制文件): 约 125MB
+# 总计 (含二进制文件): 约 175-225MB
+
+
+# ========================================
+# 校验文件完整性
+# ========================================
+
+# Windows PowerShell 校验示例：
+# ========================================
+# Get-FileHash -Algorithm SHA256 .\node-v20.14.0-x64.msi | Format-List
+# Get-FileHash -Algorithm SHA256 .\Git-x.x.x.x-64-bit.exe | Format-List
+
+# 下载脚本会自动生成 checksums.txt 文件，包含所有下载文件的 SHA256 校验和
+
+
+# ========================================
+# 注意事项
+# ========================================
+
+# 1. 某些文件（如 Git for Windows）需要手动从官网下载
+#    因为官方安装包可能没有直接的下载链接
+
+# 2. Claude Code 的官方安装脚本（install.ps1）在首次运行时
+#    可能会尝试下载最新的二进制文件。如需完全离线，
+#    建议直接从 GitHub Releases 下载二进制文件。
+
+# 3. 下载完成后，请检查所有文件的完整性（MD5/SHA256 校验和）
+
+# 4. 将整个文件夹打包（.zip）后传输到离线环境
+
+# 5. 在离线机器上安装时，必须以管理员身份运行 PowerShell
+
+
+# ========================================
+# 版本信息
+# ========================================
+
+# - Claude Code: 最新稳定版
+# - Git: 2.47.1 或更新版本
+# - Node.js: 20.x LTS (v20.14.0)
+# - ripgrep: 14.1.0
+# - 文档更新日期: 2026-03-06
+
+
+# ========================================
+# 获取帮助
+# ========================================
+
+# 如遇到问题，请：
+# 1. 检查系统要求是否满足
+# 2. 查阅 README.md 中的常见问题部分
+# 3. 访问 Claude Code 官方文档
+# 4. 查看 GitHub Issues
+
+# 官方资源：
+# - Claude Code 文档: https://docs.anthropic.com/claude-code
+# - GitHub 仓库: https://github.com/anthropics/claude-code
+# - API 控制台: https://console.anthropic.com/
